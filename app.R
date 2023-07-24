@@ -267,7 +267,7 @@ server <- function(input, output, session) {
   
   
   observeEvent(input$fit, {
-    
+    data_meta <- value$data_meta
     # Model fitting
     
     withProgress(message = 'Fitting', value = 0, {
@@ -275,7 +275,7 @@ server <- function(input, output, session) {
       ## 1. Linear (mu, alpha, tau)
       if("linear" %in% input$mods){
         value$linear <- MBMA_stan(
-          data=dat.topi02, likelihood="binomial",
+          data=data_meta, likelihood="binomial",
           dose_response="linear", 
           mu_prior = c(0, 10), 
           alpha_prior = c(0, 100),
@@ -288,7 +288,7 @@ server <- function(input, output, session) {
       ## 2. Log dose linear (mu, alpha, tau)
       if("loglinear" %in% input$mods){
         value$loglinear <- MBMA_stan(
-          data=dat.topi02, likelihood="binomial",
+          data=data_meta, likelihood="binomial",
           dose_response="log-linear", 
           mu_prior = c(0, 10), 
           alpha_prior = c(0, 100),
@@ -301,7 +301,7 @@ server <- function(input, output, session) {
       ## 3. Emax (mu, Emax, ED50, tau)
       if("emax" %in% input$mods){
         value$emax <- MBMA_stan(
-          data=dat.topi02, likelihood="binomial",
+          data=data_meta, likelihood="binomial",
           dose_response="emax", 
           Emax_prior=c(0, 10), 
           ED50_prior_dist="functional",
@@ -314,7 +314,7 @@ server <- function(input, output, session) {
       ## 4. Sigmoidal Emax (mu, Emax, ED50, gamma, tau)
       if("sigmoidal" %in% input$mods){
         value$sigmoidal <- MBMA_stan(
-          data=dat.topi02, likelihood="binomial",
+          data=data_meta, likelihood="binomial",
           dose_response="sigmoidal", 
           Emax_prior=c(0, 10), 
           ED50_prior_dist="functional",
