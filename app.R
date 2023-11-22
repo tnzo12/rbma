@@ -17,6 +17,7 @@ library(plotly)
 library(MetaStan)
 library(promises)
 library(shinycssloaders)
+library(readxl)
 
 # Options for Spinner
 options(spinner.color="#FF6666", spinner.color.background="#ffffff", spinner.size=2)
@@ -125,9 +126,9 @@ ui <- bslib::page_fluid(
     card_header("Data preparation"),
     shiny::fileInput(
       inputId = "udata",
-      label = "Upload .csv file",
+      label = "Upload .xlsx file",
       width = "100%",
-      accept = ".csv"
+      accept = ".xlsx"
     ),
     "[Dataset preparation guide]",
     br(),
@@ -185,7 +186,8 @@ server <- function(input, output, session) {
   value <- shiny::reactiveValues()
   
   observeEvent(input$udata,{
-    value$data <- read.csv(input$udata$datapath) # add upload data to value$data
+    # value$data <- read.csv(input$udata$datapath) # add upload data to value$data
+    value$data <- as.data.frame(read_excel(input$udata$datapath, sheet = 1))
   })
   
   output$data_raw <- renderRHandsontable({

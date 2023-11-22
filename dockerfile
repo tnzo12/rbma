@@ -30,13 +30,14 @@ RUN R -e "install.packages('dplyr', dependencies=TRUE)"
 RUN R -e "install.packages('sparkline', dependencies=TRUE)"
 RUN R -e "install.packages('MetaStan', dependencies=TRUE)"
 RUN R -e "install.packages('promises', dependencies=TRUE)"
+RUN R -e "install.packages('readxl')"
 
 # Data
 RUN R -e "install.packages(c('reactable','kableExtra','data.table','furrr'), dependencies=TRUE)"
 
 # copy the app to the image
 # COPY shiny-server.sh /usr/bin/shiny-server.sh
-COPY app.R /srv/shiny-server
+# COPY app.R /srv/shiny-server
 
 # select port
 EXPOSE 3838
