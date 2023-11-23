@@ -18,6 +18,7 @@ library(MetaStan)
 library(promises)
 library(shinycssloaders)
 library(readxl)
+library(writexl)
 
 # Options for Spinner
 options(spinner.color="#FF6666", spinner.color.background="#ffffff", spinner.size=2)
@@ -85,13 +86,13 @@ mbmap <- function(x = MBMA.stan,...) {
       fillcolor = "rgba(255, 102, 102, 0.2)") %>%
     # geom_line (dashed)
     add_trace(data = Preddata, x = ~Pred_doses, y = ~y.lo, name = "lower prediction",
-              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666", width=1)) %>%
+              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666")) %>%
     add_trace(data = Preddata, x = ~Pred_doses, y = ~y.hi, name = "upper prediction",
-              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666", width=1)) %>%
+              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666")) %>%
     add_trace(data = Preddata, x = ~Pred_doses, y = ~y.lo25, name = "25th prediction",
-              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666", width=1)) %>%
+              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666")) %>%
     add_trace(data = Preddata, x = ~Pred_doses, y = ~y.hi75, name = "75th prediction",
-              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666", width=1)) %>%
+              type = "scatter", mode = "lines", line = list(dash = "dash", color = "#ff6666")) %>%
     # geom_line
     add_trace(data = Preddata, x = ~Pred_doses, y = ~y.pred, name = "50th prediction",
               type = "scatter", mode = "lines", line = list(color = "#ff6666")) %>%
@@ -196,14 +197,13 @@ server <- function(input, output, session) {
   output$download_btn <- downloadHandler(
     filename = function() {
       # setname for data
-      "data.csv"
+      "data.xlsx"
     },
     content = function(file) {
       # generate file
-      write.csv(rhandsontable::hot_to_r(input$data_raw), "data.csv",
-                quote = FALSE, row.names = FALSE)
+      writexl::write_xlsx(rhandsontable::hot_to_r(input$data_raw), "data.xlsx")
       # download generated file
-      file.copy("data.csv", file)
+      file.copy("data.xlsx", file)
     }
   )
   
