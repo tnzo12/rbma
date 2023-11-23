@@ -31,6 +31,7 @@ RUN R -e "install.packages('sparkline', dependencies=TRUE)"
 RUN R -e "install.packages('MetaStan', dependencies=TRUE)"
 RUN R -e "install.packages('promises', dependencies=TRUE)"
 RUN R -e "install.packages('readxl')"
+RUN R -e "install.packages('writexl')"
 
 # Data
 RUN R -e "install.packages(c('reactable','kableExtra','data.table','furrr'), dependencies=TRUE)"
