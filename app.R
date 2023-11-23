@@ -201,9 +201,9 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       # generate file
-      writexl::write_xlsx(rhandsontable::hot_to_r(input$data_raw), "data.xlsx")
+      writexl::write_xlsx(rhandsontable::hot_to_r(input$data_raw), file)
       # download generated file
-      file.copy("data.xlsx", file)
+      #file.copy("data.xlsx", file)
     }
   )
   
